@@ -1,3 +1,5 @@
+import json
+
 animal = {'name': 'lion', 'turns': 20, 'interactions': {
     'poke': ['it roars and bites your hand off', 10],
     'look': ['its yellow fur glistens gracefully in the sun', 1],
@@ -5,12 +7,25 @@ animal = {'name': 'lion', 'turns': 20, 'interactions': {
     'look around': ['surrounding you are beautiful African plains', 1],
     'pet': ['its large mane feels good through your fingers', 3]
     }, 'letter_match': 1}
+animals = [animal]
 
 
 def import_file(fpath):
     '''
     takes input file as string that contains details about interactions and rules so user can create their own game
     '''
+    with open(fpath) as f:
+        imported_animal = ""
+        lines = f.readlines()
+        for line in lines:
+            imported_animal += line.replace("\n", "")
+            ##print(line)
+        imported_animal = imported_animal.replace("animal = ", "")
+        imported_animal = imported_animal.replace("\'", "\"")
+        #print(imported_animal)
+        animal_json = json.loads(imported_animal)
+        animals.append(animal_json)
+        print(animals)
 
 def interact(action:str):
     '''
