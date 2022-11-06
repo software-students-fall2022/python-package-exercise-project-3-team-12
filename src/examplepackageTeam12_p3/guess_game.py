@@ -74,12 +74,7 @@ def handle_input(actions):
             handle_letter_match()
             return False
         elif(inp == 'guess'):
-            guess = handle_guess()
-            
-            if(guess):
-                return True
-            else:
-                return False
+            return handle_guess()
 
         if(inp in actions):
             interact(inp)
