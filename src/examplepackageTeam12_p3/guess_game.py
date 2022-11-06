@@ -39,7 +39,8 @@ def interact(action:str):
 
 def letter_match(letter):
     '''
-    takes a letter as input and returns whether or not letter is in animal name
+    takes a letter as input and returns whether or not letter is in animal name.
+    returns array of indices where letter matches.
     '''
     # if(animal.get('letter_match') > 0):
     #     animal.update({'letter_match': animal.get('letter_match') - 1})
@@ -51,20 +52,34 @@ def handle_letter_match():
     '''
     handling user interaction w/ letter match
     '''
+    while (True):
+        inp = ("guess a letter: ").lower()
+        if (len(inp)>1):
+            print("Input only 1 letter!")
+        else:
+            letter_match(inp)
+
 
 def guess(guess_name):
     '''
     takes name of animal as string and returns true or false
     '''
-    # if(guess_name.lower() == animal.get('name')):
-    #     return True
-    # else:
-    #     return False   
+    if(guess_name.lower() == animal.get('name')):
+        print("You guessed correctly!")
+        return True
+    else:
+        print("Wrong. Try again.")
+        return False   
 
 def handle_guess():
     '''
     handling user interaction when guessing
     '''
+    while (True):
+        inp = input("guess the animal: ").lower()
+        guess(inp)
+        if (guess(inp) == True):
+            break
 
 def handle_input(actions):
     while(True):
