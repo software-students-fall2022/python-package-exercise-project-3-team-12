@@ -1,4 +1,4 @@
-import examplepackageTeam12_p3.guess_game as game
+from examplepackageTeam12p3 import game
 
 
 def main():
