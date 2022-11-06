@@ -1,9 +1,8 @@
-import examplepackagefb1258.wisdom as wisdom
+import examplepackageTeam12_p3.guess_game as game
 
 
 def main():
-  line = wisdom.get()
-  print(line)
+  game.play()
 
 if __name__ == '__main__':
     main()
