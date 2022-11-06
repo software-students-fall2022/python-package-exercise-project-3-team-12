@@ -53,11 +53,12 @@ def handle_letter_match():
     handling user interaction w/ letter match
     '''
     while (True):
-        inp = ("guess a letter: ").lower()
+        inp = ("Guess a letter: ").lower()
         if (len(inp)>1):
             print("Input only 1 letter!")
         else:
             letter_match(inp)
+            break
 
 
 def guess(guess_name):
@@ -75,11 +76,8 @@ def handle_guess():
     '''
     handling user interaction when guessing
     '''
-    while (True):
-        inp = input("guess the animal: ").lower()
-        guess(inp)
-        if (guess(inp) == True):
-            break
+    inp = input("Guess the animal: ").lower()
+    return guess(inp)
 
 def handle_input(actions):
     while(True):
@@ -119,6 +117,7 @@ def play():
         guess = handle_input(actions)
 
         if(guess):
+            print('Congrats! You win!')
             break
 
         turns = animal.get('turns')
