@@ -86,18 +86,23 @@ def handle_input(actions):
         inp = input('What will you do?: ').lower()
 
         if(inp == 'guess letter'):
-            handle_letter_match(inp)
-            break
+            handle_letter_match()
+            return False
         elif(inp == 'guess'):
-            handle_guess(inp)
-            break
+            return handle_guess()
 
         if(inp in actions):
             interact(inp)
-            break
+            return False
         else:
             print('Can\'t do that, sorry!')
-            print('Your available actions: '+actions+'\n\tguess letter\n\tguess')
+            print('Your available actions: '+stringify(actions)+'\n\tguess letter\n\tguess')
+
+def stringify(keys):
+    output = ''
+    for key in keys:
+        output += '\n\t'+key
+    return output
 
 def play():
     '''
@@ -109,7 +114,19 @@ def play():
     print('Welcome to our guessing game! Interact with the animal to receive clues on what it is and make your best guess!')
 
     while(turns > 0):
-        print('Your number of turns left: '+turns)
-        print('Your available actions: '+actions+'\n\tguess letter\n\tguess')
-        handle_input(actions)
+        print('\nYour number of turns left: '+str(turns))
+        print('Your available actions: '+stringify(actions)+'\n\tguess letter\n\tguess')
+        guess = handle_input(actions)
+
+        if(guess):
+            break
+
+        turns = animal.get('turns')
+
         # to do: handle guesses and handle letter guesses
+
+        if(turns <= 0):
+            print('Your game has ended! Better luck next time!')
+        
+
+play()
