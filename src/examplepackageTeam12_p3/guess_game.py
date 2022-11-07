@@ -42,18 +42,25 @@ def letter_match(letter):
     takes a letter as input and returns whether or not letter is in animal name.
     returns array of indices where letter matches.
     '''
-    # if(animal.get('letter_match') > 0):
-    #     animal.update({'letter_match': animal.get('letter_match') - 1})
-    #     return animal.get('name').find(letter)
-    # else:
-    #     print('You cannot guess anymore letters!')
+    if(animal.get('letter_match') > 0):
+        animal.update({'turns': animal.get('turns') - 1})
+        matches = []
+        name = animal.get('name')
+        for i in range(len(name)):
+            if (letter == name[i]):
+                matches.append(i)
+        print("matches: ",matches)
+        return matches
+    else:
+         print('You cannot guess anymore letters!')
+
 
 def handle_letter_match():
     '''
     handling user interaction w/ letter match
     '''
     while (True):
-        inp = ("Guess a letter: ").lower()
+        inp = input("Guess a letter: ").lower()
         if (len(inp)>1):
             print("Input only 1 letter!")
         else:
@@ -84,8 +91,8 @@ def handle_input(actions):
         inp = input('What will you do?: ').lower()
 
         if(inp == 'guess letter'):
-            handle_letter_match()
-            return False
+            return handle_letter_match()
+            #return False
         elif(inp == 'guess'):
             return handle_guess()
 
