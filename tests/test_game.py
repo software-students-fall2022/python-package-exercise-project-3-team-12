@@ -13,6 +13,7 @@ class Tests:
         yield # at the yield point, the test function will run and do its business
 
         # place with any teardown you want to do after any test function that uses this fixture has completed
+
     # @pytest.fixture
     # def load_fixture(self):
     #     """
@@ -40,8 +41,7 @@ class Tests:
     @pytest.fixture
     def make_animal(self):
         animal = game.Animal()
-
-        yield
+        return animal
 
     def test_sanity_check(self, example_fixture):
         """
@@ -57,26 +57,27 @@ class Tests:
         """
         Test if guess correctly identifies that the strings match
         """
-        assert game.guess("lion") == True
-        assert game.guess("LION") == True
-        assert game.guess("tiger") == False
+
+        assert game.guess("lion", make_animal) == True
+        assert game.guess("LION", make_animal) == True
+        assert game.guess("tiger", make_animal) == False
 
     def test_guess_lower(self, make_animal):
         """
         Test if guess properly lowers the turns after a failed guess
         """
-        before = game.animal['turns']
-        game.guess("tiger")
-        assert before > game.animal['turns']
+        before = make_animal.turns
+        game.guess("tiger", make_animal)
+        assert before > make_animal.turns
 
     def test_interact(self, make_animal):
         """
         Test if interact properly returns its string and lowers the score
         """
-        for key in game.animal['interactions']:
-            before = game.animal['turns']
-            assert game.animal['interactions'][key][0] == game.interact(key)
-            assert before > game.animal['turns']
+        for key in make_animal.interactions:
+            before = make_animal.turns
+            assert make_animal.interactions[key][0] == game.interact(key)
+            assert before > make_animal.turns
 
     def test_interact_repeat(self, make_animal):
         """
@@ -84,7 +85,7 @@ class Tests:
         """
         game.interact('poke')
         with pytest.raises(KeyError):
-            game.animal['interactions']['poke']
+            make_animal.interactions['poke']
 
     # def test_import(self, load_fixture):
     #     """
@@ -107,11 +108,11 @@ class Tests:
         """
         Test if letter_match properly checks if the letter is in the animal name
         """
-        for letter in game.animal['name']:
-            match_arr = game.letter_match(letter)
+        for letter in make_animal.name:
+            match_arr = game.letter_match(letter, make_animal)
             assert len(match_arr) > 0
             for ind in match_arr:
-                assert ind-1 == game.animal['name'].find(letter)
+                assert ind-1 == make_animal.name.find(letter)
 
     # def test_letter_lower(self):
     #     """
