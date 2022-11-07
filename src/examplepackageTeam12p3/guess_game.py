@@ -6,7 +6,7 @@ animal = {'name': 'lion', 'turns': 20, 'interactions': {
     'yell': ['it glances over at you and yawns, bearing its four large canines', 2],
     'look around': ['surrounding you are beautiful African plains', 1],
     'pet': ['its large mane feels good through your fingers', 3]
-    }, 'letter_match': 1}
+    }, 'letter_match': 7}
 animals = [animal]
 
 
@@ -41,17 +41,13 @@ def letter_match(letter):
     takes a letter as input and returns whether or not letter is in animal name.
     returns array of indices where letter matches.
     '''
-    if(animal.get('letter_match') > 0):
-        animal.update({'turns': animal.get('turns') - 1})
-        matches = []
-        name = animal.get('name')
-        for i in range(len(name)):
-            if (letter == name[i]):
-                matches.append(i)
-        print("matches: ",matches)
-        return matches
-    else:
-         print('You cannot guess anymore letters!')
+    animal.update({'turns': animal.get('turns') - animal.get('letter_match')})
+    matches = []
+    name = animal.get('name')
+    for i in range(len(name)):
+        if (letter == name[i]):
+            matches.append(i+1)
+    return matches
 
 
 def handle_letter_match():
@@ -59,12 +55,11 @@ def handle_letter_match():
     handling user interaction w/ letter match
     '''
     while (True):
-        inp = input("Guess a letter: ").lower()
+        inp = input("Guess a letter: ").lower().strip()
         if (len(inp)>1):
             print("Input only 1 letter!")
         else:
-            letter_match(inp)
-            break
+            return letter_match(inp)
 
 
 def guess(guess_name):
@@ -72,31 +67,39 @@ def guess(guess_name):
     takes name of animal as string and returns true or false
     '''
     if(guess_name.lower() == animal.get('name').lower()):
-        print("You guessed correctly!")
         return True
     else:
-        print("Wrong. Try again.")
         return False   
 
 def handle_guess():
     '''
     handling user interaction when guessing
     '''
-    inp = input("Guess the animal: ").lower()
+    inp = input("Guess the animal: ").lower().strip()
     return guess(inp)
 
 def handle_input(actions):
     while(True):
-        inp = input('What will you do?: ').lower()
+        inp = input('What will you do?: ').lower().strip()
 
         if(inp == 'guess letter'):
-            return handle_letter_match()
-            #return False
+            letter_arr = handle_letter_match()
+            if(len(letter_arr) == 0):
+                print('No letter matches!')
+            else:
+                print('Matches at these indices: '+stringify(letter_arr))
+            return
         elif(inp == 'guess'):
-            return handle_guess()
+            guess = handle_guess()
+
+            if(guess):
+                return guess
+            else:
+                print('Wrong, try again!')
+                return guess
 
         if(inp in actions):
-            interact(inp)
+            print(interact(inp))
             return False
         else:
             print('Can\'t do that, sorry!')
@@ -105,7 +108,7 @@ def handle_input(actions):
 def stringify(keys):
     output = ''
     for key in keys:
-        output += '\n\t'+key
+        output += '\n\t'+str(key)
     return output
 
 def play():
@@ -127,8 +130,6 @@ def play():
             break
 
         turns = animal.get('turns')
-
-        # to do: handle guesses and handle letter guesses
 
         if(turns <= 0):
             print('Your game has ended! Better luck next time!')
