@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 pytest = "*"
-examplepackagefb1258 = {editable = true, path = "."}
+examplepackageTeam12p3 = {editable = true, path = "."}
 
 [dev-packages]
 
