@@ -37,6 +37,12 @@ class Tests:
     #     """
     #     yield
 
+    @pytest.fixture
+    def make_animal(self):
+        animal = game.Animal()
+
+        yield
+
     def test_sanity_check(self, example_fixture):
         """
         Test debugging... making sure that we can run a simple test that always passes.
@@ -47,7 +53,7 @@ class Tests:
         actual = True # the value we see in reality
         assert actual == expected, "Expected True to be equal to True!"
     
-    def test_guess(self):
+    def test_guess(self, make_animal):
         """
         Test if guess correctly identifies that the strings match
         """
@@ -55,7 +61,7 @@ class Tests:
         assert game.guess("LION") == True
         assert game.guess("tiger") == False
 
-    def test_guess_lower(self):
+    def test_guess_lower(self, make_animal):
         """
         Test if guess properly lowers the turns after a failed guess
         """
@@ -63,7 +69,7 @@ class Tests:
         game.guess("tiger")
         assert before > game.animal['turns']
 
-    def test_interact(self):
+    def test_interact(self, make_animal):
         """
         Test if interact properly returns its string and lowers the score
         """
@@ -72,7 +78,7 @@ class Tests:
             assert game.animal['interactions'][key][0] == game.interact(key)
             assert before > game.animal['turns']
 
-    def test_interact_repeat(self):
+    def test_interact_repeat(self, make_animal):
         """
         Test if interact does not repeat hints
         """
@@ -97,7 +103,7 @@ class Tests:
     # 'pet': ['its large mane feels good through your fingers', 3]
     # }, 'letter_match': 1}
 
-    def test_letter(self):
+    def test_letter(self, make_animal):
         """
         Test if letter_match properly checks if the letter is in the animal name
         """
