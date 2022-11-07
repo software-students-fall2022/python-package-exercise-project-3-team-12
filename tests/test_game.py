@@ -13,29 +13,29 @@ class Tests:
         yield # at the yield point, the test function will run and do its business
 
         # place with any teardown you want to do after any test function that uses this fixture has completed
-    @pytest.fixture
-    def load_fixture(self):
-        """
-        fixture for loading in data
-        """
-        game.import_file()
+    # @pytest.fixture
+    # def load_fixture(self):
+    #     """
+    #     fixture for loading in data
+    #     """
+    #     game.import_file()
 
-        yield
+    #     yield
 
-        game.animal = {'name': 'lion', 'turns': 20, 'interactions': {
-            'poke': ['it roars and bites your hand off', 10],
-            'look': ['its yellow fur glistens gracefully in the sun', 1],
-            'yell': ['it glances over at you and yawns, bearing its four large canines', 2],
-            'look around': ['surrounding you are beautiful African plains', 1],
-            'pet': ['its large mane feels good through your fingers', 3]
-            }, 'letter_match': 1}
+    #     game.animal = {'name': 'lion', 'turns': 20, 'interactions': {
+    #         'poke': ['it roars and bites your hand off', 10],
+    #         'look': ['its yellow fur glistens gracefully in the sun', 1],
+    #         'yell': ['it glances over at you and yawns, bearing its four large canines', 2],
+    #         'look around': ['surrounding you are beautiful African plains', 1],
+    #         'pet': ['its large mane feels good through your fingers', 3]
+    #         }, 'letter_match': 1}
 
-    @pytest.fixture
-    def load_fixture_false(self):
-        """
-        fixture for loading in data incorrectly
-        """
-        yield
+    # @pytest.fixture
+    # def load_fixture_false(self):
+    #     """
+    #     fixture for loading in data incorrectly
+    #     """
+    #     yield
 
     def test_sanity_check(self, example_fixture):
         """
@@ -85,22 +85,27 @@ class Tests:
     #     Test if import properly imports into the format for animal
     #     """
 
-    def test_import_incorrect(self, load_fixture_false):
-        """
-        Test if import properly handles incorrect import types
-        """
-        assert game.animal == {'name': 'lion', 'turns': 20, 'interactions': {
-    'poke': ['it roars and bites your hand off', 10],
-    'look': ['its yellow fur glistens gracefully in the sun', 1],
-    'yell': ['it glances over at you and yawns, bearing its four large canines', 2],
-    'look around': ['surrounding you are beautiful African plains', 1],
-    'pet': ['its large mane feels good through your fingers', 3]
-    }, 'letter_match': 1}
+    # def test_import_incorrect(self, load_fixture_false):
+    #     """
+    #     Test if import properly handles incorrect import types
+    #     """
+    #     assert game.animal == {'name': 'lion', 'turns': 20, 'interactions': {
+    # 'poke': ['it roars and bites your hand off', 10],
+    # 'look': ['its yellow fur glistens gracefully in the sun', 1],
+    # 'yell': ['it glances over at you and yawns, bearing its four large canines', 2],
+    # 'look around': ['surrounding you are beautiful African plains', 1],
+    # 'pet': ['its large mane feels good through your fingers', 3]
+    # }, 'letter_match': 1}
 
-    # def test_letter(self):
-    #     """
-    #     Test if letter_match properly checks if the letter is in the animal name
-    #     """
+    def test_letter(self):
+        """
+        Test if letter_match properly checks if the letter is in the animal name
+        """
+        for letter in game.animal['name']:
+            match_arr = game.letter_match(letter)
+            assert len(match_arr) > 0
+            for ind in match_arr:
+                assert ind-1 == game.animal['name'].find(letter)
 
     # def test_letter_lower(self):
     #     """
