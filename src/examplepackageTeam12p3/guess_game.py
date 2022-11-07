@@ -45,12 +45,12 @@ def letter_match(letter, animal:Animal, guesses):
     takes a letter as input and returns whether or not letter is in animal name.
     returns array of indices where letter matches.
     '''
-    #animal.update({'turns': animal.get('turns') - animal.get('letter_match')})
     animal.turns = animal.turns - animal.letter_match
     matches = []
     for i in range(len(animal.name)):
         if (letter == animal.name[i]):
             matches.append(i+1)
+    animal.turns -= 1
     return matches
 
 
@@ -77,6 +77,7 @@ def guess(guess_name, animal:Animal):
     if(guess_name.lower() == animal.name.lower()):
         return True
     else:
+        animal.turns = animal.turns - 1
         return False   
 
 def handle_guess(animal:Animal):
@@ -104,7 +105,6 @@ def handle_input(actions, animal:Animal, guesses):
                 return guess
             else:
                 print('Wrong, try again!')
-                animal.turns = animal.turns - 1
                 return guess
 
         if(inp in actions):
@@ -146,5 +146,4 @@ def play():
 
         if(turns <= 0):
             print('Your game has ended! Better luck next time!')
-        
-play()
+
