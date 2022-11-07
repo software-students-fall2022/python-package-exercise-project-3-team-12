@@ -1,4 +1,4 @@
-from examplepackageTeam12p3 import game
+from examplepackageTeam12p3 import guess_game
 
 
 def main():
