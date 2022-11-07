@@ -12,6 +12,7 @@ class Animal:
         self.turns = turns
         self.interactions = interactions
         self.letter_match = letter_match
+#guesses =[]
 
 def import_file(fpath):
     '''
@@ -39,7 +40,7 @@ def interact(action:str, animal:Animal):
     animal.turns = animal.turns - act_arr[1]
     return act_arr[0]
 
-def letter_match(letter, animal:Animal):
+def letter_match(letter, animal:Animal, guesses):
     '''
     takes a letter as input and returns whether or not letter is in animal name.
     returns array of indices where letter matches.
@@ -53,7 +54,7 @@ def letter_match(letter, animal:Animal):
     return matches
 
 
-def handle_letter_match(animal:Animal):
+def handle_letter_match(animal:Animal, guesses):
     '''
     handling user interaction w/ letter match
     '''
@@ -61,8 +62,12 @@ def handle_letter_match(animal:Animal):
         inp = input("Guess a letter: ").lower().strip()
         if (len(inp)>1):
             print("Input only 1 letter!")
+        elif (inp in guesses):
+            print("Already guessed this letter. Pick another.")
         else:
-            return letter_match(inp, animal)
+            guesses.append(inp)
+            print("guesses made: ", guesses)
+            return letter_match(inp, animal, guesses)
 
 
 def guess(guess_name, animal:Animal):
@@ -81,12 +86,12 @@ def handle_guess(animal:Animal):
     inp = input("Guess the animal: ").lower().strip()
     return guess(inp, animal)
 
-def handle_input(actions, animal:Animal):
+def handle_input(actions, animal:Animal, guesses):
     while(True):
         inp = input('What will you do?: ').lower().strip()
 
         if(inp == 'guess letter'):
-            letter_arr = handle_letter_match(animal)
+            letter_arr = handle_letter_match(animal, guesses)
             if(len(letter_arr) == 0):
                 print('No letter matches!')
             else:
@@ -104,6 +109,8 @@ def handle_input(actions, animal:Animal):
 
         if(inp in actions):
             print(interact(inp, animal))
+            interactions = animal.interactions
+            del interactions[inp]
             return False
         else:
             print('Can\'t do that, sorry!')
@@ -122,13 +129,14 @@ def play():
     animal = Animal()
     turns = animal.turns
     actions = animal.interactions.keys()
+    guesses = []
 
     print('Welcome to our guessing game! Interact with the animal to receive clues on what it is and make your best guess!')
 
     while(turns > 0):
         print('\nYour number of turns left: '+str(turns))
         print('Your available actions: '+stringify(actions)+'\n\tguess letter\n\tguess')
-        guess = handle_input(actions, animal)
+        guess = handle_input(actions, animal, guesses)
 
         if(guess):
             print('Congrats! You win!')
