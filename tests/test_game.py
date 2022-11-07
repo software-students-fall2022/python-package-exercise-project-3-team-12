@@ -114,20 +114,13 @@ class Tests:
             for ind in match_arr:
                 assert ind-1 == make_animal.name.find(letter)
 
-    # def test_letter_lower(self):
-    #     """
-    #     Test if letter_match properly lowers the turn count
-    #     """
-
-    # def test_letter_repeat(self):
-    #     """
-    #     Test if letter_match does not repeat hints
-    #     """
-
-    # def test_letter_incorrect(self):
-    #     """
-    #     Test if letter_match handles incorrect input like too many letters
-    #     """    
+    def test_letter_lower(self, make_animal):
+        """
+        Test if letter_match properly lowers the turn count
+        """
+        before = make_animal.turns
+        game.letter_match('l', make_animal)
+        assert before > make_animal.turns
 
     # def test_play_win(self):
     #     """
