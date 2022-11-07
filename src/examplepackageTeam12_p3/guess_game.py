@@ -33,9 +33,8 @@ def interact(action:str):
 	accesses a dictionary of tuples where tuples store result of action and turn/healthpoint loss.
     '''
     act_arr = animal.get('interactions').get(action)
-    print(act_arr[0])
     animal.update({'turns': animal.get('turns') - act_arr[1]})
-
+    return act_arr[0]
 
 def letter_match(letter):
     '''
@@ -72,7 +71,7 @@ def guess(guess_name):
     '''
     takes name of animal as string and returns true or false
     '''
-    if(guess_name.lower() == animal.get('name')):
+    if(guess_name.lower() == animal.get('name').lower()):
         print("You guessed correctly!")
         return True
     else:

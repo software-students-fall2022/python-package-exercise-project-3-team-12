@@ -24,7 +24,7 @@
             "markers": "python_version >= '3.5'",
             "version": "==22.1.0"
         },
-        "examplepackagefb1258": {
+        "examplepackageTeam12p3": {
             "editable": true,
             "path": "."
         },
