@@ -49,6 +49,7 @@ def letter_match(letter, animal:Animal):
     for i in range(len(animal.name)):
         if (letter == animal.name[i]):
             matches.append(i+1)
+    animal.turns -= 1
     return matches
 
 
