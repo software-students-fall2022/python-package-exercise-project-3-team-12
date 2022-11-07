@@ -119,7 +119,7 @@ class Tests:
         Test if letter_match properly lowers the turn count
         """
         before = make_animal.turns
-        game.letter_match('l', make_animal)
+        game.letter_match('a', make_animal)
         assert before > make_animal.turns
 
     # def test_play_win(self):
