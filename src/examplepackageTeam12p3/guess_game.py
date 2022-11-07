@@ -7,7 +7,6 @@ animal = {'name': 'lion', 'turns': 20, 'interactions': {
     'look around': ['surrounding you are beautiful African plains', 1],
     'pet': ['its large mane feels good through your fingers', 3]
     }, 'letter_match': 7}
-animals = [animal]
 
 
 def import_file(fpath):
@@ -24,8 +23,8 @@ def import_file(fpath):
         imported_animal = imported_animal.replace("\'", "\"")
         #print(imported_animal)
         animal_json = json.loads(imported_animal)
-        animals.append(animal_json)
-        print(animals)
+        animal = animal_json
+        print(animal)
 
 def interact(action:str):
     '''
