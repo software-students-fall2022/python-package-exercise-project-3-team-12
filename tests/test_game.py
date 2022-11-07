@@ -2,7 +2,7 @@ import pytest
 from examplepackageTeam12p3 import guess_game as game
 
 class Tests:
-
+    @pytest.fixture
     def example_fixture(self):
         '''
         An example of a pytest fixture - a function that can be used for setup and teardown before and after test functions are run.
@@ -10,21 +10,32 @@ class Tests:
 
         # place any setup you want to do before any test function that uses this fixture is run
 
-        yield # at th=e yield point, the test function will run and do its business
+        yield # at the yield point, the test function will run and do its business
 
         # place with any teardown you want to do after any test function that uses this fixture has completed
-    
-    # def load_fixture(self):
-    #     """
-    #     fixture for loading in data
-    #     """
-    #     yield
+    @pytest.fixture
+    def load_fixture(self):
+        """
+        fixture for loading in data
+        """
+        game.import_file()
 
-    # def load_fixture_false(self):
-    #     """
-    #     fixture for loading in data incorrectly
-    #     """
-    #     yield
+        yield
+
+        game.animal = {'name': 'lion', 'turns': 20, 'interactions': {
+            'poke': ['it roars and bites your hand off', 10],
+            'look': ['its yellow fur glistens gracefully in the sun', 1],
+            'yell': ['it glances over at you and yawns, bearing its four large canines', 2],
+            'look around': ['surrounding you are beautiful African plains', 1],
+            'pet': ['its large mane feels good through your fingers', 3]
+            }, 'letter_match': 1}
+
+    @pytest.fixture
+    def load_fixture_false(self):
+        """
+        fixture for loading in data incorrectly
+        """
+        yield
 
     def test_sanity_check(self, example_fixture):
         """
@@ -57,24 +68,34 @@ class Tests:
         Test if interact properly returns its string and lowers the score
         """
         for key in game.animal['interactions']:
-            before = game.animal['interactions'][key][1] 
+            before = game.animal['turns']
             assert game.animal['interactions'][key][0] == game.interact(key)
-            assert before > game.animal['interactions'][key][1] 
+            assert before > game.animal['turns']
 
-    # def test_interact_repeat(self):
-    #     """
-    #     Test if interact does not repeat hints
-    #     """
+    def test_interact_repeat(self):
+        """
+        Test if interact does not repeat hints
+        """
+        game.interact('poke')
+        with pytest.raises(KeyError):
+            game.animal['interactions']['poke']
 
-    # def test_import(self):
+    # def test_import(self, load_fixture):
     #     """
     #     Test if import properly imports into the format for animal
     #     """
 
-    # def test_import_incorrect(self):
-    #     """
-    #     Test if import properly handles incorrect import types
-    #     """
+    def test_import_incorrect(self, load_fixture_false):
+        """
+        Test if import properly handles incorrect import types
+        """
+        assert game.animal == {'name': 'lion', 'turns': 20, 'interactions': {
+    'poke': ['it roars and bites your hand off', 10],
+    'look': ['its yellow fur glistens gracefully in the sun', 1],
+    'yell': ['it glances over at you and yawns, bearing its four large canines', 2],
+    'look around': ['surrounding you are beautiful African plains', 1],
+    'pet': ['its large mane feels good through your fingers', 3]
+    }, 'letter_match': 1}
 
     # def test_letter(self):
     #     """
