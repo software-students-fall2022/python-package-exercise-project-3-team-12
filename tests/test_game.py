@@ -197,8 +197,10 @@ class Tests:
         '''
         monkeypatch.setattr('sys.stdin', StringIO('abcd\n'))
 
+        before = make_animal.turns
         game.handle_letter_match(make_animal, [])
         assert 'Input only 1 letter!' in capsys.readouterr().out
+        assert before == make_animal.turns
 
     def test_handle_let_mat_dupe_guess(self, make_animal, monkeypatch, capsys):
         '''
@@ -210,10 +212,12 @@ class Tests:
         game.handle_letter_match(make_animal, guesses)
         assert guesses[0] == 'a'
 
+        before = make_animal.turns
         monkeypatch.setattr('sys.stdin', StringIO('a\n'))
         game.handle_letter_match(make_animal, guesses)
         assert len(guesses) == 1
         assert 'Already guessed this letter. Pick another.' in capsys.readouterr().out
+        assert before == make_animal.turns
 
     def test_handle_let_mat_no_match(self, make_animal, monkeypatch, capsys):
         '''
@@ -221,8 +225,10 @@ class Tests:
         '''
         monkeypatch.setattr('sys.stdin', StringIO('a\n'))
 
+        before = make_animal.turns
         game.handle_letter_match(make_animal, [])
         assert 'No letter matches!' in capsys.readouterr().out
+        assert before > make_animal.turns
 
     ####################################
     #           play tests
