@@ -17,10 +17,14 @@ then put in the header:
 
 and begin using the functions in your program.
 
+For the examples in functions this alias will be used:
+
+`from examplepackageTeam12p3 import guess_game as game`
 ### Functions
 
 #### `def import_file(fpath):`
-    Takes input file as string that contains details about interactions and rules so user can create their own game
+    Takes input json file as string that contains details about interactions and rules so user can create their own game
+`game.import_file(your_file)` to import your_file as the animal class  
 
 #### `def interact(action:str, animal:Animal):`
     takes action as string and prints result of action.
@@ -28,7 +32,7 @@ and begin using the functions in your program.
 
 #### `def letter_match(letter, animal:Animal):`
     takes a letter as input and returns whether or not letter is in animal name.
-    returns array of indices where letter matches.
+    returns array of indices where letter matches.  
     
 
 #### `def handle_letter_match(animal:Animal, guesses:list):`
@@ -45,6 +49,7 @@ and begin using the functions in your program.
     
     handling user interaction when guessing
     
+#### `def handle_input(actions, animal:Animal, guesses):`
 
 #### `def stringify(keys):`
 
