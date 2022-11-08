@@ -76,16 +76,8 @@ class Tests:
         """
         for key in make_animal.interactions:
             before = make_animal.turns
-            assert make_animal.interactions[key][0] == game.interact(key)
+            assert make_animal.interactions[key][0] == game.interact(key, make_animal)
             assert before > make_animal.turns
-
-    def test_interact_repeat(self, make_animal):
-        """
-        Test if interact does not repeat hints
-        """
-        game.interact('poke')
-        with pytest.raises(KeyError):
-            make_animal.interactions['poke']
 
     # def test_import(self, load_fixture):
     #     """
@@ -109,7 +101,7 @@ class Tests:
         Test if letter_match properly checks if the letter is in the animal name
         """
         for letter in make_animal.name:
-            match_arr = game.letter_match(letter, make_animal)
+            match_arr = game.letter_match(letter, make_animal, [])
             assert len(match_arr) > 0
             for ind in match_arr:
                 assert ind-1 == make_animal.name.find(letter)
@@ -119,8 +111,13 @@ class Tests:
         Test if letter_match properly lowers the turn count
         """
         before = make_animal.turns
-        game.letter_match('a', make_animal)
+        game.letter_match('a', make_animal, [])
         assert before > make_animal.turns
+
+    # def test_letter_repeat(self, make_animal):
+    #     """
+    #     Test if letter_match does not allow repeats
+    #     """
 
     # def test_play_win(self):
     #     """

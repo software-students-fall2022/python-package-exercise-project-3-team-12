@@ -12,7 +12,6 @@ class Animal:
         self.turns = turns
         self.interactions = interactions
         self.letter_match = letter_match
-#guesses =[]
 
 def import_file(fpath):
     '''
