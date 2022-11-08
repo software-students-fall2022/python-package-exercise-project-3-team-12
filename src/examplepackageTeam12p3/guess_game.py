@@ -33,13 +33,13 @@ def import_file(fpath):
 def interact(action:str, animal:Animal):
     '''
     takes action as string and prints result of action.
-	accesses a dictionary of tuples where tuples store result of action and turn/healthpoint loss.
+	accesses a dictionary of lists where lists store result of action and turn/healthpoint loss.
     '''
     act_arr = animal.interactions.get(action)
     animal.turns = animal.turns - act_arr[1]
     return act_arr[0]
 
-def letter_match(letter, animal:Animal, guesses):
+def letter_match(letter, animal:Animal):
     '''
     takes a letter as input and returns whether or not letter is in animal name.
     returns array of indices where letter matches.
@@ -67,7 +67,7 @@ def _handle_letter_match(animal:Animal, guesses:list):
         return False
     else:
         guesses.append(inp)
-        letter_arr = letter_match(inp, animal, guesses)
+        letter_arr = letter_match(inp, animal)
 
         if(len(letter_arr) == 0):
             print('No letter matches!')
@@ -82,7 +82,7 @@ def guess(guess_name, animal:Animal):
     '''
     takes name of animal as string and returns true or false
     '''
-    if(guess_name.lower() == animal.name.lower()):
+    if(guess_name == animal.name.lower().strip()):
         return True
     else:
         animal.turns = animal.turns - 1

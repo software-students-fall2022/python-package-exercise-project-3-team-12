@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "examplepackageTeam12p3"
 description = "An example of a package developed with pyenv, built with build using setuptools, uploaded to PyPI using twine, and distributed via pip."
-version = "0.0.67"
+version = "0.1.1"
 authors = [
   { name="project3g12", email="alexchen7889@gmail.com" },
 ]
