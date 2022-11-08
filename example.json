@@ -1,0 +1,9 @@
+{
+    "name": "Amos Bloomberg", "turns": "25", "interactions": {
+        "poke": ["You lose 15 points on your project", 15],
+        "look": ["You see a very nice beard", 10],
+        "yell": ["You get told to be quiet", 5],
+        "look around": ["You see a projecter with Foo Barstein", 10],
+        "present": ["You present your project and fail horribly", 20]
+    }, "letter_match": 3
+}
