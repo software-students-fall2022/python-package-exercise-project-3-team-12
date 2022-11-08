@@ -102,15 +102,13 @@ def _handle_input(actions, animal:Animal, guesses):
         if(inp == 'guess letter'):
             while(True):
                 if(_handle_letter_match(animal, guesses)):
-                    return
+                    return False
         elif(inp == 'guess'):
-            guess = _handle_guess(animal)
-
-            if(guess):
-                return guess
+            if(_handle_guess(animal)):
+                return True
             else:
                 print('Wrong, try again!')
-                return guess
+                return False
 
         if(inp in actions):
             print(interact(inp, animal))
