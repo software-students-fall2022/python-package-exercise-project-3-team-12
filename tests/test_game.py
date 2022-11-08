@@ -138,7 +138,7 @@ class Tests:
         '''
         test to make sure handle_letter_match properly handles input with >1 letter
         '''
-        monkeypatch.setattr('sys.stdin', StringIO('abcd'))
+        monkeypatch.setattr('sys.stdin', StringIO('abcd\n'))
 
         game._handle_letter_match(make_animal, [])
         assert 'Input only 1 letter!' in capsys.readouterr().out
@@ -148,7 +148,7 @@ class Tests:
         test to make sure handle_letter_match rejects duplicate letter guesses
         '''
         guesses = []
-        monkeypatch.setattr('sys.stdin', StringIO('a'))
+        monkeypatch.setattr('sys.stdin', StringIO('a\n'))
 
         game._handle_letter_match(make_animal, guesses)
         assert guesses[0] == 'a'
@@ -161,7 +161,7 @@ class Tests:
         '''
         test to make sure correct output given when no match found
         '''
-        monkeypatch.setattr('sys.stdin', StringIO('a'))
+        monkeypatch.setattr('sys.stdin', StringIO('a\n'))
 
         game._handle_letter_match(make_animal, [])
         assert 'No letter matches!' in capsys.readouterr().out
