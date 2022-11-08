@@ -53,7 +53,7 @@ def letter_match(letter, animal:Animal, guesses):
     return matches
 
 
-def handle_letter_match(animal:Animal, guesses):
+def _handle_letter_match(animal:Animal, guesses):
     '''
     handling user interaction w/ letter match
     '''
@@ -79,26 +79,26 @@ def guess(guess_name, animal:Animal):
         animal.turns = animal.turns - 1
         return False   
 
-def handle_guess(animal:Animal):
+def _handle_guess(animal:Animal):
     '''
     handling user interaction when guessing
     '''
     inp = input("Guess the animal: ").lower().strip()
     return guess(inp, animal)
 
-def handle_input(actions, animal:Animal, guesses):
+def _handle_input(actions, animal:Animal, guesses):
     while(True):
         inp = input('What will you do?: ').lower().strip()
 
         if(inp == 'guess letter'):
-            letter_arr = handle_letter_match(animal, guesses)
+            letter_arr = _handle_letter_match(animal, guesses)
             if(len(letter_arr) == 0):
                 print('No letter matches!')
             else:
-                print('Matches at these indices: '+stringify(letter_arr))
+                print('Matches at these indices: '+_stringify(letter_arr))
             return
         elif(inp == 'guess'):
-            guess = handle_guess(animal)
+            guess = _handle_guess(animal)
 
             if(guess):
                 return guess
@@ -113,9 +113,9 @@ def handle_input(actions, animal:Animal, guesses):
             return False
         else:
             print('Can\'t do that, sorry!')
-            print('Your available actions: '+stringify(actions)+'\n\tguess letter\n\tguess')
+            print('Your available actions: '+_stringify(actions)+'\n\tguess letter\n\tguess')
 
-def stringify(keys):
+def _stringify(keys):
     output = ''
     for key in keys:
         output += '\n\t'+str(key)
@@ -134,8 +134,8 @@ def play():
 
     while(turns > 0):
         print('\nYour number of turns left: '+str(turns))
-        print('Your available actions: '+stringify(actions)+'\n\tguess letter\n\tguess')
-        guess = handle_input(actions, animal, guesses)
+        print('Your available actions: '+_stringify(actions)+'\n\tguess letter\n\tguess')
+        guess = _handle_input(actions, animal, guesses)
 
         if(guess):
             print('Congrats! You win!')
