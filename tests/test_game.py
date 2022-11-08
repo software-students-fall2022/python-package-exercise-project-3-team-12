@@ -1,4 +1,4 @@
-import sys
+from io import StringIO
 import pytest
 from examplepackageTeam12p3 import guess_game as game
 
@@ -134,43 +134,34 @@ class Tests:
     #      handle_letter_match tests
     ####################################
 
-    # def test_handle_let_mat_many_letters(self, make_animal):
-    #     '''
-    #     test to make sure handle_letter_match properly handles input with >1 letter
-    #     '''
-    #     self.orig_stdin = sys.stdin
+    def test_handle_let_mat_many_letters(self, make_animal, monkeypatch, capsys):
+        '''
+        test to make sure handle_letter_match properly handles input with >1 letter
+        '''
+        monkeypatch.setattr('sys.stdin', StringIO('abcd'))
 
-    #     sys.stdin = 'abcd'
-    #     game._handle_letter_match(make_animal, [])
-    #     assert sys.stdout == 'Input only 1 letter!'
+        game._handle_letter_match(make_animal, [])
+        assert 'Input only 1 letter!' in capsys.readouterr().out
 
-    #     sys.stdin = self.orig_stdin
+    def test_handle_let_mat_dupe_guess(self, make_animal, monkeypatch, capsys):
+        '''
+        test to make sure handle_letter_match rejects duplicate letter guesses
+        '''
+        guesses = []
+        monkeypatch.setattr('sys.stdin', StringIO('a'))
 
-    # def test_handle_let_mat_dupe_guess(self, make_animal):
-    #     '''
-    #     test to make sure handle_letter_match rejects duplicate letter guesses
-    #     '''
-    #     guesses = []
-    #     self.orig_stdin = sys.stdin
+        game._handle_letter_match(make_animal, guesses)
+        assert guesses[0] == 'a'
 
-    #     sys.stdin = 'a'
-    #     game._handle_letter_match(make_animal, guesses)
-    #     assert guesses[0] == 'a'
+        game._handle_letter_match(make_animal, guesses)
+        assert len(guesses) == 1
+        assert 'Already guessed this letter. Pick another.' in capsys.readouterr().out
 
-    #     game._handle_letter_match(make_animal, guesses)
-    #     assert len(guesses) == 1
-    #     assert sys.stdout == 'Already guessed this letter. Pick another.'
+    def test_handle_let_mat_no_match(self, make_animal, monkeypatch, capsys):
+        '''
+        test to make sure correct output given when no match found
+        '''
+        monkeypatch.setattr('sys.stdin', StringIO('a'))
 
-    #     sys.stdin = self.orig_stdin
-
-    # def test_handle_let_mat_no_match(self, make_animal):
-    #     '''
-    #     test to make sure correct output given when no match found
-    #     '''
-    #     self.orig_stdin = sys.stdin
-
-    #     sys.stdin = 'a'
-    #     game._handle_letter_match(make_animal, [])
-    #     assert sys.stdout == 'No letter matches!'
-
-    #     sys.stdin = self.orig_stdin
+        game._handle_letter_match(make_animal, [])
+        assert 'No letter matches!' in capsys.readouterr().out
