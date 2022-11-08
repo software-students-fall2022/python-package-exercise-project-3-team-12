@@ -84,7 +84,7 @@ class Tests:
         fails = [' lio n ', ' L ion', '12345', 'asdfg', 'tiger ', ' Tig er']
         for fail in fails:
             monkeypatch.setattr('sys.stdin', StringIO(fail))
-            assert game._handle_guess(make_animal) == False
+            assert game.handle_guess(make_animal) == False
 
     def test_handle_guess_case(self, make_animal, monkeypatch):
         """
@@ -93,7 +93,7 @@ class Tests:
         success = ['lion', 'Lion', 'lIon', 'liOn', 'lioN', 'LIon', 'LiOn', 'LioN', 'LIOn', 'LiON', 'lION', 'LION']
         for s in success:
             monkeypatch.setattr('sys.stdin', StringIO(s))
-            assert game._handle_guess(make_animal) == True
+            assert game.handle_guess(make_animal) == True
 
     def test_handle_guess_strip(self, make_animal, monkeypatch):
         """
@@ -102,7 +102,7 @@ class Tests:
         success = ['lion', ' lion','lion ',' lion ','  lion ']
         for s in success:
             monkeypatch.setattr('sys.stdin', StringIO(s))
-            assert game._handle_guess(make_animal) == True
+            assert game.handle_guess(make_animal) == True
 
     def test_interact(self, make_animal):
         """
@@ -197,7 +197,7 @@ class Tests:
         '''
         monkeypatch.setattr('sys.stdin', StringIO('abcd\n'))
 
-        game._handle_letter_match(make_animal, [])
+        game.handle_letter_match(make_animal, [])
         assert 'Input only 1 letter!' in capsys.readouterr().out
 
     def test_handle_let_mat_dupe_guess(self, make_animal, monkeypatch, capsys):
@@ -207,11 +207,11 @@ class Tests:
         guesses = []
 
         monkeypatch.setattr('sys.stdin', StringIO('a\n'))
-        game._handle_letter_match(make_animal, guesses)
+        game.handle_letter_match(make_animal, guesses)
         assert guesses[0] == 'a'
 
         monkeypatch.setattr('sys.stdin', StringIO('a\n'))
-        game._handle_letter_match(make_animal, guesses)
+        game.handle_letter_match(make_animal, guesses)
         assert len(guesses) == 1
         assert 'Already guessed this letter. Pick another.' in capsys.readouterr().out
 
@@ -221,5 +221,27 @@ class Tests:
         '''
         monkeypatch.setattr('sys.stdin', StringIO('a\n'))
 
-        game._handle_letter_match(make_animal, [])
+        game.handle_letter_match(make_animal, [])
         assert 'No letter matches!' in capsys.readouterr().out
+
+    ####################################
+    #           play tests
+    ####################################
+
+    # def test_play_success(self, monkeypatch, capsys):
+    #     '''
+    #     test to make sure game ends correctly when proper guess given
+    #     '''
+    #     game.play()
+    #     monkeypatch.setattr('sys.stdin', StringIO('guess\n'))
+    #     monkeypatch.setattr('sys.stdin', StringIO('lion\n'))
+    #     assert 'Congrats! You win!' in capsys.readouterr().out
+
+    # def test_play_failure(self, monkeypatch, capsys):
+    #     '''
+    #     test to make sure game ends correctly when turns used up
+    #     '''
+    #     game.play()
+    #     monkeypatch.setattr('sys.stdin', StringIO('poke\n'))
+    #     monkeypatch.setattr('sys.stdin', StringIO('poke\n'))
+    #     assert 'Your game has ended! Better luck next time!' in capsys.readouterr().out
