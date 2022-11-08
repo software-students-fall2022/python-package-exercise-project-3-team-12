@@ -53,7 +53,7 @@ def letter_match(letter, animal:Animal, guesses):
     return matches
 
 
-def _handle_letter_match(animal:Animal, guesses:list):
+def handle_letter_match(animal:Animal, guesses:list):
     '''
     handling user interaction w/ letter match
     '''
@@ -72,7 +72,7 @@ def _handle_letter_match(animal:Animal, guesses:list):
         if(len(letter_arr) == 0):
             print('No letter matches!')
         else:
-            print('Matches at these positions: '+_stringify(letter_arr))
+            print('Matches at these positions: '+stringify(letter_arr))
         
         return True
 
@@ -88,23 +88,23 @@ def guess(guess_name, animal:Animal):
         animal.turns = animal.turns - 1
         return False   
 
-def _handle_guess(animal:Animal):
+def handle_guess(animal:Animal):
     '''
     handling user interaction when guessing
     '''
     inp = input("Guess the animal: ").lower().strip()
     return guess(inp, animal)
 
-def _handle_input(actions, animal:Animal, guesses):
+def handle_input(actions, animal:Animal, guesses):
     while(True):
         inp = input('What will you do?: ').lower().strip()
 
         if(inp == 'guess letter'):
             while(True):
-                if(_handle_letter_match(animal, guesses)):
+                if(handle_letter_match(animal, guesses)):
                     return False
         elif(inp == 'guess'):
-            if(_handle_guess(animal)):
+            if(handle_guess(animal)):
                 return True
             else:
                 print('Wrong, try again!')
@@ -117,36 +117,36 @@ def _handle_input(actions, animal:Animal, guesses):
             return False
         else:
             print('Can\'t do that, sorry!')
-            print('Your available actions: '+_stringify(actions)+'\n\tguess letter\n\tguess')
+            print('Your available actions: '+stringify(actions)+'\n\tguess letter\n\tguess')
 
-def _stringify(keys):
+def stringify(keys):
     output = ''
     for key in keys:
         output += '\n\t'+str(key)
     return output
 
-def play():
-    '''
-    method used to play game
-    '''
-    animal = Animal()
-    turns = animal.turns
-    actions = animal.interactions.keys()
-    guesses = []
+# def play():
+#     '''
+#     method used to play game
+#     '''
+#     animal = Animal()
+#     turns = animal.turns
+#     actions = animal.interactions.keys()
+#     guesses = []
 
-    print('Welcome to our guessing game! Interact with the animal to receive clues on what it is and make your best guess!')
+#     print('Welcome to our guessing game! Interact with the animal to receive clues on what it is and make your best guess!')
 
-    while(turns > 0):
-        print('\nYour number of turns left: '+str(turns))
-        print('Your available actions: '+_stringify(actions)+'\n\tguess letter\n\tguess')
-        guess = _handle_input(actions, animal, guesses)
+#     while(turns > 0):
+#         print('\nYour number of turns left: '+str(turns))
+#         print('Your available actions: '+stringify(actions)+'\n\tguess letter\n\tguess')
+#         guess = handle_input(actions, animal, guesses)
 
-        if(guess):
-            print('Congrats! You win!')
-            break
+#         if(guess):
+#             print('Congrats! You win!')
+#             break
 
-        turns = animal.turns
+#         turns = animal.turns
 
-        if(turns <= 0):
-            print('Your game has ended! Better luck next time!')
+#         if(turns <= 0):
+#             print('Your game has ended! Better luck next time!')
 
