@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "e38cb2ff7dbae6efff334b2b10aebdcddcd9d3949e8b8ceb7d03a8c0f402a693"
+            "sha256": "5f323db304e3b53f63c160d6c295a346f0372eb9392cd817735b2181dc25e6a5"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -24,17 +24,23 @@
             "markers": "python_version >= '3.5'",
             "version": "==22.1.0"
         },
-        "examplepackageTeam12p3": {
+        "examplepackageteam12p3": {
             "editable": true,
-            "path": "."
+            "hashes": [
+                "sha256:06af248a72cc75b88f91f67e4e1faedde65ce3fd351fce05e9928fcbc86b5562",
+                "sha256:0c630975b44f290b667e21d7cf72ad25163490b6322c86a2f4dd4ce705d5c13f"
+            ],
+            "index": "testpypi",
+            "path": ".",
+            "version": "==0.1.2"
         },
         "exceptiongroup": {
             "hashes": [
-                "sha256:2ac84b496be68464a2da60da518af3785fff8b7ec0d090a581604bc870bdee41",
-                "sha256:affbabf13fb6e98988c38d9c5650e701569fe3c1de3233cfb61c5f33774690ad"
+                "sha256:4d6c0aa6dd825810941c792f53d7b8d71da26f5e5f84f20f9508e8f2d33b140a",
+                "sha256:73866f7f842ede6cb1daa42c4af078e2035e5f7607f0e2c762cc51bb31bbe7b2"
             ],
             "markers": "python_version < '3.11'",
-            "version": "==1.0.0"
+            "version": "==1.0.1"
         },
         "iniconfig": {
             "hashes": [
