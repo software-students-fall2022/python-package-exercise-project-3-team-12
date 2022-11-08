@@ -79,14 +79,6 @@ class Tests:
             assert make_animal.interactions[key][0] == game.interact(key, make_animal)
             assert before > make_animal.turns
 
-    def test_interact_repeat(self, make_animal):
-        """
-        Test if interact does not repeat hints
-        """
-        game.interact('poke', make_animal)
-        with pytest.raises(KeyError):
-            make_animal.interactions['poke']
-
     # def test_import(self, load_fixture):
     #     """
     #     Test if import properly imports into the format for animal
