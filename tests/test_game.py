@@ -84,7 +84,7 @@ class Tests:
         fails = [' lio n ', ' L ion', '12345', 'asdfg', 'tiger ', ' Tig er']
         for fail in fails:
             monkeypatch.setattr('sys.stdin', StringIO(fail))
-            assert game._handle_guess(make_animal) == False
+            assert game.handle_guess(make_animal) == False
 
     def test_handle_guess_case(self, make_animal, monkeypatch):
         """
@@ -93,7 +93,7 @@ class Tests:
         success = ['lion', 'Lion', 'lIon', 'liOn', 'lioN', 'LIon', 'LiOn', 'LioN', 'LIOn', 'LiON', 'lION', 'LION']
         for s in success:
             monkeypatch.setattr('sys.stdin', StringIO(s))
-            assert game._handle_guess(make_animal) == True
+            assert game.handle_guess(make_animal) == True
 
     def test_handle_guess_strip(self, make_animal, monkeypatch):
         """
@@ -102,7 +102,7 @@ class Tests:
         success = ['lion', ' lion','lion ',' lion ','  lion ']
         for s in success:
             monkeypatch.setattr('sys.stdin', StringIO(s))
-            assert game._handle_guess(make_animal) == True
+            assert game.handle_guess(make_animal) == True
 
     def test_interact(self, make_animal):
         """
