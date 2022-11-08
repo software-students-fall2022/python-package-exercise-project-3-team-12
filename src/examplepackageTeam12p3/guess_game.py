@@ -67,7 +67,7 @@ def _handle_letter_match(animal:Animal, guesses:list):
         return False
     else:
         guesses.append(inp)
-        letter_arr = letter_match(inp, animal, guesses)
+        letter_arr = letter_match(inp, animal)
 
         if(len(letter_arr) == 0):
             print('No letter matches!')

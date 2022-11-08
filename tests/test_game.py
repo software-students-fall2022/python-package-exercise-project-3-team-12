@@ -77,29 +77,32 @@ class Tests:
         for fail in fails:
             assert game.guess(fail,make_animal) == False
 
-    def test_handle_guess_fail(self, make_animal):
+    def test_handle_guess_fail(self, make_animal, monkeypatch):
         """
         Test if handle guess fails on incorrect input
         """
         fails = [' lio n ', ' L ion', '12345', 'asdfg', 'tiger ', ' Tig er']
         for fail in fails:
-            assert game._handle_guess(fail,make_animal) == False
+            monkeypatch.setattr('sys.stdin', StringIO(fail))
+            assert game._handle_guess(make_animal) == False
 
-    def test_handle_guess_case(self, make_animal):
+    def test_handle_guess_case(self, make_animal, monkeypatch):
         """
         Test if handle guess lowers case for inputs properly
         """
         success = ['lion', 'Lion', 'lIon', 'liOn', 'lioN', 'LIon', 'LiOn', 'LioN', 'LIOn', 'LiON', 'lION', 'LION']
         for s in success:
-            assert game._handle_guess(s,make_animal) == True
+            monkeypatch.setattr('sys.stdin', StringIO(s))
+            assert game._handle_guess(make_animal) == True
 
-    def test_handle_guess_strip(self, make_animal):
+    def test_handle_guess_strip(self, make_animal, monkeypatch):
         """
         Test if handle guess strips inputs properly
         """
         success = ['lion', ' lion','lion ',' lion ','  lion ']
         for s in success:
-            assert game._handle_guess(s,make_animal) == True
+            monkeypatch.setattr('sys.stdin', StringIO(s))
+            assert game._handle_guess(make_animal) == True
 
     def test_interact(self, make_animal):
         """
