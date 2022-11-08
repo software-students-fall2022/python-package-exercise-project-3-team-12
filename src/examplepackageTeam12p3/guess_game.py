@@ -53,20 +53,29 @@ def letter_match(letter, animal:Animal, guesses):
     return matches
 
 
-def _handle_letter_match(animal:Animal, guesses):
+def _handle_letter_match(animal:Animal, guesses:list):
     '''
     handling user interaction w/ letter match
     '''
-    while (True):
-        inp = input("Guess a letter: ").lower().strip()
-        if (len(inp)>1):
-            print("Input only 1 letter!")
-        elif (inp in guesses):
-            print("Already guessed this letter. Pick another.")
+    print("Guesses made: ", guesses)
+    inp = input("Guess a letter: ").lower().strip()
+    if (len(inp)>1):
+        print("Input only 1 letter!")
+        return False
+    elif (inp in guesses):
+        print("Already guessed this letter. Pick another.")
+        return False
+    else:
+        guesses.append(inp)
+        letter_arr = letter_match(inp, animal, guesses)
+
+        if(len(letter_arr) == 0):
+            print('No letter matches!')
         else:
-            guesses.append(inp)
-            print("guesses made: ", guesses)
-            return letter_match(inp, animal, guesses)
+            print('Matches at these positions: '+_stringify(letter_arr))
+        
+        return True
+
 
 
 def guess(guess_name, animal:Animal):
@@ -91,20 +100,15 @@ def _handle_input(actions, animal:Animal, guesses):
         inp = input('What will you do?: ').lower().strip()
 
         if(inp == 'guess letter'):
-            letter_arr = _handle_letter_match(animal, guesses)
-            if(len(letter_arr) == 0):
-                print('No letter matches!')
-            else:
-                print('Matches at these indices: '+_stringify(letter_arr))
-            return
+            while(True):
+                if(_handle_letter_match(animal, guesses)):
+                    return False
         elif(inp == 'guess'):
-            guess = _handle_guess(animal)
-
-            if(guess):
-                return guess
+            if(_handle_guess(animal)):
+                return True
             else:
                 print('Wrong, try again!')
-                return guess
+                return False
 
         if(inp in actions):
             print(interact(inp, animal))
