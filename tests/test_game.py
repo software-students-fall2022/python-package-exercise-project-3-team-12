@@ -148,11 +148,12 @@ class Tests:
         test to make sure handle_letter_match rejects duplicate letter guesses
         '''
         guesses = []
-        monkeypatch.setattr('sys.stdin', StringIO('a\n'))
 
+        monkeypatch.setattr('sys.stdin', StringIO('a\n'))
         game._handle_letter_match(make_animal, guesses)
         assert guesses[0] == 'a'
 
+        monkeypatch.setattr('sys.stdin', StringIO('a\n'))
         game._handle_letter_match(make_animal, guesses)
         assert len(guesses) == 1
         assert 'Already guessed this letter. Pick another.' in capsys.readouterr().out
