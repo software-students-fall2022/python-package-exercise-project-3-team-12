@@ -56,12 +56,10 @@ class Tests:
     
     def test_guess(self, make_animal):
         """
-        Test if guess correctly identifies that the strings match
+        Test if guess correctly identifies that the strings match 
         """
-
-        assert game.guess("lion", make_animal) == True
-        assert game.guess("LION", make_animal) == True
-        assert game.guess("tiger", make_animal) == False
+        name = make_animal.name
+        assert game.guess(name, make_animal) == True
 
     def test_guess_lower(self, make_animal):
         """
@@ -71,14 +69,60 @@ class Tests:
         game.guess("tiger", make_animal)
         assert before > make_animal.turns
 
+    def test_guess_fail(self, make_animal):
+        """
+        Test if guess properly fails for incorrect inputs
+        """
+        fails = ['l i o n', 'tiger', 'absfgdsgs', '12345']
+        for fail in fails:
+            assert game.guess(fail,make_animal) == False
+
+    def test_handle_guess_fail(self, make_animal):
+        """
+        Test if handle guess fails on incorrect input
+        """
+        fails = [' lio n ', ' L ion', '12345', 'asdfg', 'tiger ', ' Tig er']
+        for fail in fails:
+            assert game._handle_guess(fail,make_animal) == False
+
+    def test_handle_guess_case(self, make_animal):
+        """
+        Test if handle guess lowers case for inputs properly
+        """
+        success = ['lion', 'Lion', 'lIon', 'liOn', 'lioN', 'LIon', 'LiOn', 'LioN', 'LIOn', 'LiON', 'lION', 'LION']
+        for s in success:
+            assert game._handle_guess(s,make_animal) == True
+
+    def test_handle_guess_strip(self, make_animal):
+        """
+        Test if handle guess strips inputs properly
+        """
+        success = ['lion', ' lion','lion ',' lion ','  lion ']
+        for s in success:
+            assert game._handle_guess(s,make_animal) == True
+
     def test_interact(self, make_animal):
         """
-        Test if interact properly returns its string and lowers the score
+        Test if interact properly returns its string
+        """
+        for key in make_animal.interactions:
+            assert make_animal.interactions[key][0] == game.interact(key, make_animal)          
+    
+    def test_interact_lower(self, make_animal):
+        """
+        Test if interact properly lowers the turn count
         """
         for key in make_animal.interactions:
             before = make_animal.turns
-            assert make_animal.interactions[key][0] == game.interact(key, make_animal)
+            game.interact(key, make_animal)
             assert before > make_animal.turns
+
+    def test_interact_str(self, make_animal):
+        """
+        Test if the string returned by interact is valid
+        """
+        for key in make_animal.interactions:
+            assert len(game.interact(key, make_animal)) > 0   
 
     # def test_import(self, load_fixture):
     #     """
@@ -102,18 +146,28 @@ class Tests:
         Test if letter_match properly checks if the letter is in the animal name
         """
         for letter in make_animal.name:
-            match_arr = game.letter_match(letter, make_animal, [])
+            match_arr = game.letter_match(letter, make_animal)
             assert len(match_arr) > 0
             for ind in match_arr:
                 assert ind-1 == make_animal.name.find(letter)
+
+    def test_letter_fail(self, make_animal):
+        """
+        Test if letter_match properly returns an empty array if there are no matches
+        """
+        fails = ['1','a','b','z','bb']
+        for fail in fails:
+            assert len(game.letter_match(fail, make_animal)) == 0
 
     def test_letter_lower(self, make_animal):
         """
         Test if letter_match properly lowers the turn count
         """
         before = make_animal.turns
-        game.letter_match('a', make_animal, [])
-        assert before > make_animal.turns
+        fails = ['1','a','b','z','bb']
+        for fail in fails:
+            game.letter_match(fail, make_animal)
+            assert before > make_animal.turns
 
     # def test_letter_repeat(self, make_animal):
     #     """
