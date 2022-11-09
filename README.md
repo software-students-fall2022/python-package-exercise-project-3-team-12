@@ -15,7 +15,7 @@ You can also import your own animal object by adding a file path to a JSON as an
 
 First install the package into your environment:
 
-`pip3 install -i https://test.pypi.org/simple/examplepackageTeam12p3`
+`pip install examplepackageTeam12p3==0.1.8`
 
 then put in the header:
 
@@ -76,7 +76,7 @@ Use `game.stringify(your_iterable)` to convert your iterable to a formatted stri
 #### Setup the virtual environment
 
 1. Install pipenv with `python3 -m pip install --user pipenv`
-2. Create the virtual environment and install this package `pip install -i https://test.pypi.org/simple/examplepackageTeam12p3`
+2. Create the virtual environment and install this package `pipenv install examplepackageTeam12p3==0.1.8`
 3. Activate the environment with `pipenv shell`
 4. Exit the virtual environment with `exit`
 
@@ -97,4 +97,6 @@ Alexander Chen : <https://github.com/TheAlexanderChen>
 
 John Kolibachuk : <https://github.com/jkolib>
 
-PyPI: <https://test.pypi.org/project/examplepackageTeam12p3/>
+# PyPi 
+
+PyPi: https://pypi.org/project/examplepackageTeam12p3/0.1.8/
