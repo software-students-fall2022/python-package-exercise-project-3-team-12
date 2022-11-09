@@ -17,18 +17,39 @@ def import_file(fpath):
     '''
     takes input file as string that contains details about interactions and rules so user can create their own game
     '''
-    with open(fpath) as f:
-        imported_animal = ""
-        lines = f.readlines()
-        for line in lines:
-            imported_animal += line.replace("\n", "")
-            ##print(line)
-        imported_animal = imported_animal.replace("animal = ", "")
-        imported_animal = imported_animal.replace("\'", "\"")
-        #print(imported_animal)
-        animal_json = json.loads(imported_animal)
-        animal = animal_json
-        print(animal)
+    ## Example Usage: import_file('../../example.json')
+    if fpath == None:
+        print("No file path provided. Using default values.")
+        print("Example Usage: import_file('../../example.json')")
+        return Animal()
+    if not fpath.endswith('.json'):
+        print("File must be a .json file.")
+        return Animal()
+    if os.path.isfile(fpath):
+        f = open(fpath)
+        try:
+            imported_animal = json.load(f)
+        except:
+            print("Invalid file format. Please try again.")
+            return None
+        try:
+            animal = Animal()
+            try: animal.name = imported_animal['name']
+            except: print("Error: name not found. Using default name.")
+            try: animal.turns = imported_animal['turns']
+            except: print("Error: turns not found. Using default turns.")
+            try: animal.interactions = imported_animal['interactions']
+            except: print("Error: interactions not found. Using default interactions.")
+            try: animal.letter_match = imported_animal['letter_match']
+            except: print("Error: letter_match not found. Using default letter_match.")
+            print(animal.__dict__)
+            return animal
+        except:
+            print("Error: " + "An exception occurred, return default animal.")
+            return Animal()
+    else:
+        print("File not found or Path is incorrect, return default animal.")
+        return Animal()
 
 def interact(action:str, animal:Animal):
     '''
