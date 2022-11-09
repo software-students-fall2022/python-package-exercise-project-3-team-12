@@ -1,13 +1,13 @@
 [[source]]
-url = "https://test.pypi.org/simple/"
+url = "https://pypi.org/simple"
 verify_ssl = true
-name = "testpypi"
+name = "pypi"
 
 [packages]
+examplepackageteam12p3 = "==0.1.8"
 pytest = "*"
-examplepackageTeam12p3 = {version = "*", index = "testpypi"}
 
 [dev-packages]
 
 [requires]
-python_version = "3"
+python_version = "3.9"
