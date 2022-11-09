@@ -7,11 +7,11 @@
 This package is a guessing game, where a user can use functions to find hints and guess for an animal or object.  
 A user can import their own guessing object and make a game for others.
 
-An example implementation can be found [here](src/example_game.py).
+An example implementation can be found [here](src/example_game.py) in the src folder. This example makes use of the package methods in addition to some additional code to implement an example game. You can run the example using `python example_game.py` after installing the package.
 
 First install the package into your environment:
 
-`pip3 install -i https://test.pypi.org/simple/ examplepackageTeam12p3`
+`pip3 install -i https://test.pypi.org/simple/examplepackageTeam12p3`
 
 then put in the header:
 
@@ -61,12 +61,6 @@ Function that takes user input, strips input of white space, and converts input 
 
 Use `game.handle_guess(game.Animal())` to make a guess of the name of the default animal object using an input prompt
 
-#### `handle_input(actions, animal:Animal, guesses)`
-
-Function that takes the keys of an animal object's interaction attribute as actions, the animal object itself, and an array of letters guessed as guesses. This function is designed to handle most of the interactions between the player and game and represents playing 1 round. It prompts the user for input on how they would like to act and validates the input to ensure that it is an action included in `actions` or is a special action (guess letter, guess). It then calls the function related to the user's choice of action. Returns `True` when the animal name is correctly guessed and returns `False` otherwise.
-
-You can use `game.handle_input(game.Animal().interactions.keys(), game.Animal(), [])` to play 1 round of the game using the default animal where no letter match guesses have been made
-
 #### `stringify(keys)`
 
 This function takes an iterable and produces an output string that includes each item in the iterable converted to string and prepended with a newline and tab.
@@ -78,7 +72,7 @@ Use `game.stringify(your_iterable)` to convert your iterable to a formatted stri
 #### Setup the virtual environment
 
 1. Install pipenv with `python3 -m pip install --user pipenv`
-2. Create the virtual environment and install this package `pip install -i https://test.pypi.org/simple/ examplepackageTeam12p3`
+2. Create the virtual environment and install this package `pip install -i https://test.pypi.org/simple/examplepackageTeam12p3`
 3. Activate the environment with `pipenv shell`
 4. Exit the virtual environment with `exit`
 
