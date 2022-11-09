@@ -1,4 +1,5 @@
 from io import StringIO
+import json
 import pytest
 from examplepackageTeam12p3 import guess_game as game
 
@@ -199,6 +200,34 @@ class Tests:
         for path in file_path:
             out = game.import_file(path)
             assert out == game.Animal.__init__
+
+    def test_import_success(self, load_fixture):
+        '''
+         Test if import properly fails on invalid inputs
+        '''
+        animal_json = {
+            "name": "Amos Bloomberg", "turns": "25", "interactions": {
+            "poke": ["You lose 15 points on your project", 15],
+            "look": ["You see a very nice beard", 10],
+            "yell": ["You get told to be quiet", 5],
+            "look around": ["You see a projecter with Foo Barstein", 10],
+            "present": ["You present your project and fail horribly", 20]
+        }, "letter_match": 3
+        }
+        jsonString = json.dumps(animal_json)
+        file_path = "test_example.json"
+        jsonFile = open(file_path, "w")
+        jsonFile.write(jsonString)
+        jsonFile.close()
+        out = game.import_file(file_path)
+        assert isinstance(out, game.Animal)
+        for attribute, value in animal_json.items():
+            if attribute == "interactions":
+                for key, val in value.items():
+                    assert out.interactions[key] == val
+            else:
+                assert getattr(out, attribute) == value
+
 
     # def test_import_incorrect(self, load_fixture_false):
     #     """
