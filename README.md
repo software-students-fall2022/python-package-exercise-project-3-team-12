@@ -11,7 +11,7 @@ An example implementation can be found [here](src/example_game.py) in the src fo
 
 You can run the example using `python src/example_game.py` after installing the package.
 
-You can also import your own animal object by adding a file path to a JSON as an argument e.g `python src/example_game.py example.json`.
+You can also import your own animal object by adding a file path to a JSON as an argument e.g `python src/example_game.py ./example.json`.
 
 First install the package into your environment:
 
