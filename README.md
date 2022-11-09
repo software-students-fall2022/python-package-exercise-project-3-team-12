@@ -7,7 +7,11 @@
 This package is a guessing game, where a user can use functions to find hints and guess for an animal or object.  
 A user can import their own guessing object and make a game for others.
 
-An example implementation can be found [here](src/example_game.py) in the src folder. This example makes use of the package methods in addition to some additional code to implement an example game. You can run the example using `python example_game.py` after installing the package.
+An example implementation can be found [here](src/example_game.py) in the src folder. This example makes use of the package methods in addition to some additional code to implement an example game. 
+
+You can run the example using `python src/example_game.py` after installing the package.
+
+You can also import your own animal object by adding a file path to a JSON as an argument e.g `python src/example_game.py ./example.json`.
 
 First install the package into your environment:
 
