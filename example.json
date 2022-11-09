@@ -1,5 +1,5 @@
 {
-    "name": "Amos Bloomberg", "turns": "25", "interactions": {
+    "name": "Amos Bloomberg", "turns": 25, "interactions": {
         "poke": ["You lose 15 points on your project", 15],
         "look": ["You see a very nice beard", 10],
         "yell": ["You get told to be quiet", 5],

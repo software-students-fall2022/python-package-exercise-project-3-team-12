@@ -1,4 +1,5 @@
 import json
+import os
 
 class Animal:
     def __init__(self, name='lion', turns=20, interactions={
@@ -35,7 +36,7 @@ def import_file(fpath):
         try:
             animal = Animal()
             try: 
-                if imported_animal['name'].length() > 0:
+                if len(imported_animal['name']) > 0:
                     animal.name = imported_animal['name']
                 else:
                     print("Invalid name. Using default name.")
@@ -47,7 +48,7 @@ def import_file(fpath):
                     print("Invalid number of turns. Using default number of turns.")
             except: print("Error: turns not found. Using default turns.")
             try: 
-                if imported_animal['interactions'] > 0:
+                if len(imported_animal['interactions']) > 0:
                     animal.interactions = imported_animal['interactions']
                 else:
                     print("Invalid number of interactions. Using default interactions.")
@@ -58,10 +59,12 @@ def import_file(fpath):
                 else:
                     print("Invalid number of letter_match. Using default letter_match.")
             except: print("Error: letter_match not found. Using default letter_match.")
-            print(animal.__dict__)
+            print("End of import")
+            f.close()
             return animal
         except:
             print("Error: " + "An exception occurred, return default animal.")
+            f.close()
             return Animal()
     else:
         print("File not found or Path is incorrect, return default animal.")
@@ -132,60 +135,8 @@ def handle_guess(animal:Animal):
     inp = input("Guess the animal: ").lower().strip()
     return guess(inp, animal)
 
-'''
-def handle_input(actions, animal:Animal, guesses):
-    while(True):
-        inp = input('What will you do?: ').lower().strip()
-
-        if(inp == 'guess letter'):
-            while(True):
-                if(handle_letter_match(animal, guesses)):
-                    return False
-        elif(inp == 'guess'):
-            if(handle_guess(animal)):
-                return True
-            else:
-                print('Wrong, try again!')
-                return False
-
-        if(inp in actions):
-            print(interact(inp, animal))
-            interactions = animal.interactions
-            del interactions[inp]
-            return False
-        else:
-            print('Can\'t do that, sorry!')
-            print('Your available actions: '+stringify(actions)+'\n\tguess letter\n\tguess')
-'''
-
 def stringify(keys):
     output = ''
     for key in keys:
         output += '\n\t'+str(key)
     return output
-
-# def play():
-#     '''
-#     method used to play game
-#     '''
-#     animal = Animal()
-#     turns = animal.turns
-#     actions = animal.interactions.keys()
-#     guesses = []
-
-#     print('Welcome to our guessing game! Interact with the animal to receive clues on what it is and make your best guess!')
-
-#     while(turns > 0):
-#         print('\nYour number of turns left: '+str(turns))
-#         print('Your available actions: '+stringify(actions)+'\n\tguess letter\n\tguess')
-#         guess = handle_input(actions, animal, guesses)
-
-#         if(guess):
-#             print('Congrats! You win!')
-#             break
-
-#         turns = animal.turns
-
-#         if(turns <= 0):
-#             print('Your game has ended! Better luck next time!')
-
