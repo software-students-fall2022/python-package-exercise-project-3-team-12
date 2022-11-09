@@ -95,6 +95,7 @@ def handle_guess(animal:Animal):
     inp = input("Guess the animal: ").lower().strip()
     return guess(inp, animal)
 
+'''
 def handle_input(actions, animal:Animal, guesses):
     while(True):
         inp = input('What will you do?: ').lower().strip()
@@ -118,6 +119,7 @@ def handle_input(actions, animal:Animal, guesses):
         else:
             print('Can\'t do that, sorry!')
             print('Your available actions: '+stringify(actions)+'\n\tguess letter\n\tguess')
+'''
 
 def stringify(keys):
     output = ''
