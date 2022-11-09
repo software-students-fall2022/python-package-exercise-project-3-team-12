@@ -1,9 +1,5 @@
 from examplepackageTeam12p3 import guess_game as game
-
-animal = game.Animal()
-turns = animal.turns
-actions = animal.interactions.keys()
-guesses = []
+import sys
 
 print('Welcome to our guessing game! Interact with the animal to receive clues on what it is and make your best guess!')
 
@@ -31,16 +27,30 @@ def handle_input(actions, animal, guesses):
       print('Can\'t do that, sorry!')
       print('Your available actions: '+game.stringify(actions)+'\n\tguess letter\n\tguess')
 
-while(turns > 0):
-    print('\nYour number of turns left: '+str(turns))
-    print('Your available actions: '+game.stringify(actions)+'\n\tguess letter\n\tguess')
-    guess = handle_input(actions, animal, guesses)
+def main():
+  if len(sys.argv) == 2:
+    animal = game.import_file(sys.argv[1])
+    
+  else:
+    animal = game.Animal()
+    
+  turns = animal.turns
+  actions = animal.interactions.keys()
+  guesses = []
 
-    if(guess):
-        print('Congrats! You win!')
-        break
+  while(turns > 0):
+      print('\nYour number of turns left: '+str(turns))
+      print('Your available actions: '+game.stringify(actions)+'\n\tguess letter\n\tguess')
+      guess = handle_input(actions, animal, guesses)
 
-    turns = animal.turns
+      if(guess):
+          print('Congrats! You win!')
+          break
 
-    if(turns <= 0):
-        print('Your game has ended! Better luck next time!')
+      turns = animal.turns
+
+      if(turns <= 0):
+          print('Your game has ended! Better luck next time!')
+
+if __name__ == '__main__':
+    main()
