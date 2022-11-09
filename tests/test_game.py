@@ -1,4 +1,5 @@
 from io import StringIO
+import json
 import pytest
 from examplepackageTeam12p3 import guess_game as game
 
@@ -8,36 +9,7 @@ class Tests:
         '''
         An example of a pytest fixture - a function that can be used for setup and teardown before and after test functions are run.
         '''
-
-        # place any setup you want to do before any test function that uses this fixture is run
-
-        yield # at the yield point, the test function will run and do its business
-
-        # place with any teardown you want to do after any test function that uses this fixture has completed
-
-    # @pytest.fixture
-    # def load_fixture(self):
-    #     """
-    #     fixture for loading in data
-    #     """
-    #     game.import_file()
-
-    #     yield
-
-    #     game.animal = {'name': 'lion', 'turns': 20, 'interactions': {
-    #         'poke': ['it roars and bites your hand off', 10],
-    #         'look': ['its yellow fur glistens gracefully in the sun', 1],
-    #         'yell': ['it glances over at you and yawns, bearing its four large canines', 2],
-    #         'look around': ['surrounding you are beautiful African plains', 1],
-    #         'pet': ['its large mane feels good through your fingers', 3]
-    #         }, 'letter_match': 1}
-
-    # @pytest.fixture
-    # def load_fixture_false(self):
-    #     """
-    #     fixture for loading in data incorrectly
-    #     """
-    #     yield
+        yield 
 
     @pytest.fixture
     def make_animal(self):
@@ -128,35 +100,6 @@ class Tests:
             assert len(game.interact(key, make_animal)) > 0 
 
     ####################################
-    #           handle_input tests
-    ####################################
-
-    # def test_handle_input_success(self, monkeypatch, make_animal, capsys):
-    #     '''
-    #     tests if handle_input test returns correctly when correct guess is  given
-    #     '''
-    #     try:
-    #         monkeypatch.setattr('sys.stdin', StringIO('guess\n'))
-    #         monkeypatch.setattr('sys.stdin', StringIO('lion\n'))
-    #         val = game.handle_input(make_animal.interactions.keys(),make_animal, [])
-    #         assert val == True
-    #     except (EOFError):
-    #         pass
-
-    # def test_handle_input_fail(self,make_animal, monkeypatch, capsys):
-    #     '''
-    #     tests if handle_input fails on incorrect input
-    #     '''
-    #     try:
-    #         fails = ["","a","dance"]
-    #         for fail in fails:
-    #             monkeypatch.setattr('sys.stdin', StringIO(fail+'\n'))
-    #             game.handle_input(make_animal.interactions.keys(),make_animal, [])
-    #             assert 'Can\'t do that, sorry!' in capsys.readouterr().out
-    #     except (EOFError):
-    #         pass
-
-    ####################################
     #           stringify tests
     ####################################
 
@@ -182,22 +125,46 @@ class Tests:
         for key in make_animal.interactions.keys():
             assert key in out
 
-    # def test_import(self, load_fixture):
-    #     """
-    #     Test if import properly imports into the format for animal
-    #     """
+    def test_import(self):
+        '''
+         Test if import properly imports into the format for animal
+        '''
+        file_path = ["animals.txt", "animals2.txt", "", "lalalalal", 'hahaha', '../example.json'] 
+        for path in file_path:
+            out = game.import_file(path)
+            assert isinstance(out, game.Animal)
+    
+    def test_import_fail(self):
+        '''
+         Test if import properly fails on invalid inputs
+        '''
+        file_path = ["animals.txt", "animals2.txt", "", "lalalalal", 'hahaha'] 
+        for path in file_path:
+            out = game.import_file(path)
+            assert out != game.Animal.__init__
 
-    # def test_import_incorrect(self, load_fixture_false):
-    #     """
-    #     Test if import properly handles incorrect import types
-    #     """
-    #     assert game.animal == {'name': 'lion', 'turns': 20, 'interactions': {
-    # 'poke': ['it roars and bites your hand off', 10],
-    # 'look': ['its yellow fur glistens gracefully in the sun', 1],
-    # 'yell': ['it glances over at you and yawns, bearing its four large canines', 2],
-    # 'look around': ['surrounding you are beautiful African plains', 1],
-    # 'pet': ['its large mane feels good through your fingers', 3]
-    # }, 'letter_match': 1}
+    def test_import_success(self):
+        '''
+         Test if import properly succeeds
+        '''
+        animal_json = {
+            "name": "Amos Bloomberg", "turns": 25, "interactions": {
+            "poke": ["You lose 15 points on your project", 15],
+            "look": ["You see a very nice beard", 10],
+            "yell": ["You get told to be quiet", 5],
+            "look around": ["You see a projecter with Foo Barstein", 10],
+            "present": ["You present your project and fail horribly", 20]
+        }, "letter_match": 3
+        }
+        file_path = "./example.json"
+        out = game.import_file(file_path)
+        assert isinstance(out, game.Animal)
+        for attribute, value in animal_json.items():
+            if attribute == "interactions":
+                for key, val in value.items():
+                    assert out.interactions[key] == val
+            else:
+                assert getattr(out, attribute) == value
 
     def test_letter(self, make_animal):
         """
@@ -226,21 +193,6 @@ class Tests:
         for fail in fails:
             game.letter_match(fail, make_animal)
             assert before > make_animal.turns
-
-    # def test_letter_repeat(self, make_animal):
-    #     """
-    #     Test if letter_match does not allow repeats
-    #     """
-
-    # def test_play_win(self):
-    #     """
-    #     Test if play returns the correct value if you guess correctly
-    #     """
-
-    # def test_play_lose(self):
-    #     """
-    #     Test if play returns the correct value if you guess incorrectly
-    #     """
 
     ####################################
     #      handle_letter_match tests
@@ -284,25 +236,3 @@ class Tests:
         game.handle_letter_match(make_animal, [])
         assert 'No letter matches!' in capsys.readouterr().out
         assert before > make_animal.turns
-
-    ####################################
-    #           play tests
-    ####################################
-
-    # def test_play_success(self, monkeypatch, capsys):
-    #     '''
-    #     test to make sure game ends correctly when proper guess given
-    #     '''
-    #     game.play()
-    #     monkeypatch.setattr('sys.stdin', StringIO('guess\n'))
-    #     monkeypatch.setattr('sys.stdin', StringIO('lion\n'))
-    #     assert 'Congrats! You win!' in capsys.readouterr().out
-
-    # def test_play_failure(self, monkeypatch, capsys):
-    #     '''
-    #     test to make sure game ends correctly when turns used up
-    #     '''
-    #     game.play()
-    #     monkeypatch.setattr('sys.stdin', StringIO('poke\n'))
-    #     monkeypatch.setattr('sys.stdin', StringIO('poke\n'))
-    #     assert 'Your game has ended! Better luck next time!' in capsys.readouterr().out

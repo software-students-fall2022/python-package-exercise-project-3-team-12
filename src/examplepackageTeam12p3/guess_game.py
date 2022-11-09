@@ -1,4 +1,5 @@
 import json
+import os
 
 class Animal:
     def __init__(self, name='lion', turns=20, interactions={
@@ -17,18 +18,57 @@ def import_file(fpath):
     '''
     takes input file as string that contains details about interactions and rules so user can create their own game
     '''
-    with open(fpath) as f:
-        imported_animal = ""
-        lines = f.readlines()
-        for line in lines:
-            imported_animal += line.replace("\n", "")
-            ##print(line)
-        imported_animal = imported_animal.replace("animal = ", "")
-        imported_animal = imported_animal.replace("\'", "\"")
-        #print(imported_animal)
-        animal_json = json.loads(imported_animal)
-        animal = animal_json
-        print(animal)
+    ## Example Usage: import_file('../../example.json')
+    if fpath == None:
+        print("No file path provided. Using default values.")
+        print("Example Usage: import_file('../../example.json')")
+        return Animal()
+    if not fpath.endswith('.json'):
+        print("File must be a .json file.")
+        return Animal()
+    if os.path.isfile(fpath):
+        f = open(fpath)
+        try:
+            imported_animal = json.load(f)
+        except:
+            print("Invalid file format. Please try again.")
+            return None
+        try:
+            animal = Animal()
+            try: 
+                if len(imported_animal['name']) > 0:
+                    animal.name = imported_animal['name']
+                else:
+                    print("Invalid name. Using default name.")
+            except: print("Error: name not found. Using default name.")
+            try: 
+                if imported_animal['turns'] > 0:
+                    animal.turns = imported_animal['turns']
+                else:
+                    print("Invalid number of turns. Using default number of turns.")
+            except: print("Error: turns not found. Using default turns.")
+            try: 
+                if len(imported_animal['interactions']) > 0:
+                    animal.interactions = imported_animal['interactions']
+                else:
+                    print("Invalid number of interactions. Using default interactions.")
+            except: print("Error: interactions not found. Using default interactions.")
+            try: 
+                if imported_animal['letter_match'] > 0:
+                    animal.letter_match = imported_animal['letter_match']
+                else:
+                    print("Invalid number of letter_match. Using default letter_match.")
+            except: print("Error: letter_match not found. Using default letter_match.")
+            print("End of import")
+            f.close()
+            return animal
+        except:
+            print("Error: " + "An exception occurred, return default animal.")
+            f.close()
+            return Animal()
+    else:
+        print("File not found or Path is incorrect, return default animal.")
+        return Animal()
 
 def interact(action:str, animal:Animal):
     '''
@@ -95,60 +135,8 @@ def handle_guess(animal:Animal):
     inp = input("Guess the animal: ").lower().strip()
     return guess(inp, animal)
 
-'''
-def handle_input(actions, animal:Animal, guesses):
-    while(True):
-        inp = input('What will you do?: ').lower().strip()
-
-        if(inp == 'guess letter'):
-            while(True):
-                if(handle_letter_match(animal, guesses)):
-                    return False
-        elif(inp == 'guess'):
-            if(handle_guess(animal)):
-                return True
-            else:
-                print('Wrong, try again!')
-                return False
-
-        if(inp in actions):
-            print(interact(inp, animal))
-            interactions = animal.interactions
-            del interactions[inp]
-            return False
-        else:
-            print('Can\'t do that, sorry!')
-            print('Your available actions: '+stringify(actions)+'\n\tguess letter\n\tguess')
-'''
-
 def stringify(keys):
     output = ''
     for key in keys:
         output += '\n\t'+str(key)
     return output
-
-# def play():
-#     '''
-#     method used to play game
-#     '''
-#     animal = Animal()
-#     turns = animal.turns
-#     actions = animal.interactions.keys()
-#     guesses = []
-
-#     print('Welcome to our guessing game! Interact with the animal to receive clues on what it is and make your best guess!')
-
-#     while(turns > 0):
-#         print('\nYour number of turns left: '+str(turns))
-#         print('Your available actions: '+stringify(actions)+'\n\tguess letter\n\tguess')
-#         guess = handle_input(actions, animal, guesses)
-
-#         if(guess):
-#             print('Congrats! You win!')
-#             break
-
-#         turns = animal.turns
-
-#         if(turns <= 0):
-#             print('Your game has ended! Better luck next time!')
-
