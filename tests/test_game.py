@@ -125,7 +125,62 @@ class Tests:
         Test if the string returned by interact is valid
         """
         for key in make_animal.interactions:
-            assert len(game.interact(key, make_animal)) > 0   
+            assert len(game.interact(key, make_animal)) > 0 
+
+    ####################################
+    #           handle_input tests
+    ####################################
+
+    # def test_handle_input_success(self, monkeypatch, make_animal, capsys):
+    #     '''
+    #     tests if handle_input test returns correctly when correct guess is  given
+    #     '''
+    #     try:
+    #         monkeypatch.setattr('sys.stdin', StringIO('guess\n'))
+    #         monkeypatch.setattr('sys.stdin', StringIO('lion\n'))
+    #         val = game.handle_input(make_animal.interactions.keys(),make_animal, [])
+    #         assert val == True
+    #     except (EOFError):
+    #         pass
+
+    # def test_handle_input_fail(self,make_animal, monkeypatch, capsys):
+    #     '''
+    #     tests if handle_input fails on incorrect input
+    #     '''
+    #     try:
+    #         fails = ["","a","dance"]
+    #         for fail in fails:
+    #             monkeypatch.setattr('sys.stdin', StringIO(fail+'\n'))
+    #             game.handle_input(make_animal.interactions.keys(),make_animal, [])
+    #             assert 'Can\'t do that, sorry!' in capsys.readouterr().out
+    #     except (EOFError):
+    #         pass
+
+    ####################################
+    #           stringify tests
+    ####################################
+
+    def test_stringify(self, make_animal):
+        '''
+        tests if stringify properly checks if output is non-empty
+        '''
+        out = game.stringify(make_animal.interactions.keys())
+        assert len(out) > 0
+    
+    def test_stringify_fail(self, make_animal):
+        '''
+        test if stringify properly checks if output is valid 
+        '''
+        out = game.stringify(make_animal.interactions.keys())
+        assert isinstance(out, str)
+    
+    def test_stringify_success(self, make_animal):
+        '''
+        test if stringify properly checks if input keys transfer to output string
+        '''
+        out = game.stringify(make_animal.interactions.keys())
+        for key in make_animal.interactions.keys():
+            assert key in out
 
     # def test_import(self, load_fixture):
     #     """
