@@ -34,13 +34,29 @@ def import_file(fpath):
             return None
         try:
             animal = Animal()
-            try: animal.name = imported_animal['name']
+            try: 
+                if imported_animal['name'].length() > 0:
+                    animal.name = imported_animal['name']
+                else:
+                    print("Invalid name. Using default name.")
             except: print("Error: name not found. Using default name.")
-            try: animal.turns = imported_animal['turns']
+            try: 
+                if imported_animal['turns'] > 0:
+                    animal.turns = imported_animal['turns']
+                else:
+                    print("Invalid number of turns. Using default number of turns.")
             except: print("Error: turns not found. Using default turns.")
-            try: animal.interactions = imported_animal['interactions']
+            try: 
+                if imported_animal['interactions'] > 0:
+                    animal.interactions = imported_animal['interactions']
+                else:
+                    print("Invalid number of interactions. Using default interactions.")
             except: print("Error: interactions not found. Using default interactions.")
-            try: animal.letter_match = imported_animal['letter_match']
+            try: 
+                if imported_animal['letter_match'] > 0:
+                    animal.letter_match = imported_animal['letter_match']
+                else:
+                    print("Invalid number of letter_match. Using default letter_match.")
             except: print("Error: letter_match not found. Using default letter_match.")
             print(animal.__dict__)
             return animal
