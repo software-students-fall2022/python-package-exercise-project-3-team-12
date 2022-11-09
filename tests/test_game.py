@@ -182,10 +182,23 @@ class Tests:
         for key in make_animal.interactions.keys():
             assert key in out
 
-    # def test_import(self, load_fixture):
-    #     """
-    #     Test if import properly imports into the format for animal
-    #     """
+    def test_import(self, load_fixture):
+        '''
+         Test if import properly imports into the format for animal
+        '''
+        file_path = ["animals.txt", "animals2.txt", "", "lalalalal", 'hahaha', '../example.json'] 
+        for path in file_path:
+            out = game.import_file(path)
+            assert isinstance(out, game.Animal)
+    
+    def test_import_fail(self, load_fixture):
+        '''
+         Test if import properly fails on invalid inputs
+        '''
+        file_path = ["animals.txt", "animals2.txt", "", "lalalalal", 'hahaha'] 
+        for path in file_path:
+            out = game.import_file(path)
+            assert out == game.Animal.__init__
 
     # def test_import_incorrect(self, load_fixture_false):
     #     """
